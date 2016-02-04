@@ -2,17 +2,61 @@
 	<head>
 		<script src="js/mail-generator.js"></script>
 		<link href="css/style.css" rel="stylesheet" media="screen">
-    <script>
-      window.onload = function(){
-        // ALL OF YOUR JAVASCRIPT CODE SHOULD GO HERE. 
-        // We have to use window.onload so your JavaScript doesn't execute until the page has loaded and all HTML has been downloaded to your browser
-        
-      };
-    </script>
+		<script>
+			window.onload = function(){
+
+			var emailCount = 0;
+
+			for(var i = 0; i < window.geemails.length; i++) {
+				addEmail(window.geemails[i]);
+			}
+
+			function addEmail(email) {
+				var table = document.getElementById("email");
+				var row = table.insertRow(1);
+
+				var sender = row.insertCell(0);
+				sender.innerHTML = email['sender'];
+				var subject = row.insertCell(1);
+				subject.innerHTML = email['subject'];
+				var date = row.insertCell(2);
+				date.innerHTML = email['date'].toDateString();
+
+				row.onclick = function() {
+					document.getElementById("body").innerHTML = email['body']
+				}
+
+				document.getElementById("emailCount").innerHTML = ++emailCount;
+			}
+
+			setInterval(function() {
+				addEmail(getNewMessage());
+			}, 10000);
+
+		  };
+		</script>
 	</head>
+
 	<body>
+		<div id="header">
+			<div id="count">Indox(<span id="emailCount"></span>)</div>	
+		</div>
 		<div class="container" id="main">
-			Build Me!
+
+			<div id="mailbox">
+				<table id="email">
+					<tr>
+						<th>Sender</th>
+						<th>Subject</th>
+						<th>Date</th>
+					</tr>
+				</table>
+			</div>
+
+			<div id="message">
+				<p id="body"></p>
+			</div>
+
 		</div>
 	</body>
 </html>
