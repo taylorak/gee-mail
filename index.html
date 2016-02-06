@@ -5,56 +5,82 @@
 		<script>
 			window.onload = function(){
 
-			var emailCount = 0;
+				var emailCount = 0;
 
-			for(var i = 0; i < window.geemails.length; i++) {
-				addEmail(window.geemails[i]);
-			}
-
-			function addEmail(email) {
-				var table = document.getElementById("email");
-				var row = table.insertRow(1);
-
-				var sender = row.insertCell(0);
-				sender.innerHTML = email['sender'];
-				var subject = row.insertCell(1);
-				subject.innerHTML = email['subject'];
-				var date = row.insertCell(2);
-				date.innerHTML = email['date'].toDateString();
-
-				row.onclick = function() {
-					document.getElementById("body").innerHTML = email['body']
+				// loops through window.geemail array and calls addEmail.
+				for(var i = 0; i < window.geemails.length; i++) {
+					addEmail(window.geemails[i]);
 				}
 
-				document.getElementById("emailCount").innerHTML = ++emailCount;
-			}
+				// Adds the given email to a table. 
+				function addEmail(email) {
+					var table = document.getElementById("email");
+					var row = table.insertRow(0);
 
-			setInterval(function() {
-				addEmail(getNewMessage());
-			}, 10000);
+					var sender = row.insertCell(0);
+					sender.innerHTML = email['sender'];
+					var subject = row.insertCell(1);
+					subject.innerHTML = email['subject'];
+					var date = row.insertCell(2);
+					date.innerHTML = email['date'].toDateString();
 
-		  };
+					// Loads email info of corresponding row on click.
+					row.onclick = function() {
+						this.className = "clicked";
+						document.getElementById("body").innerHTML = email['body'];
+						document.getElementById("senderInfo").innerHTML = email['sender'];
+						document.getElementById("subjectInfo").innerHTML = email['subject'];
+						document.getElementById("dateInfo").innerHTML = email['date'].toDateString();
+
+					}
+
+					// Increases the email count after a new email is added.
+					document.getElementById("emailCount").innerHTML = ++emailCount;
+				}
+
+				// Adds a new email to the list every 10 seconds.
+				setInterval(function() {
+					addEmail(getNewMessage());
+				}, 10000);
+
+			};
 		</script>
 	</head>
 
 	<body>
-		<div id="header">
-			<div id="count">Indox(<span id="emailCount"></span>)</div>	
-		</div>
 		<div class="container" id="main">
 
-			<div id="mailbox">
-				<table id="email">
-					<tr>
-						<th>Sender</th>
-						<th>Subject</th>
-						<th>Date</th>
-					</tr>
-				</table>
+			<div id="header">
+				<div id="geemail">Geemail</div>
+				<div id="count">Inbox(<span id="emailCount"></span>)</div>	
 			</div>
 
-			<div id="message">
-				<p id="body"></p>
+			<div id="content">
+
+				<div id="mailbox">
+					<table id="email">
+					</table>
+				</div>
+
+				<div id="message">
+					<table id="info">
+						<tr>
+							<td class="label">Sender</td>
+							<td id="senderInfo">Geemail Team</td>
+						</tr>
+						<tr>
+							<td class="label">Subject</td>
+							<td id="subjectInfo">Welcome to Geemail</td>
+						</tr>
+						<tr>
+							<td class="label">Date</td>
+							<td id="dateInfo">Today</td>
+						</tr>
+					</table>
+
+					<p id="body">Welcome to Geemail!  Browse your email using the list on the right.</p>
+				</div>
+
 			</div>
 
 		</div>
